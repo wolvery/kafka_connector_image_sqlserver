@@ -1,0 +1,36 @@
+trigger:
+  batch: true    # so inicia o proximo build quando o anterior terminar agrupando os commits
+  branches:
+    include:
+    - 'develop'
+    - 'release/*'
+    - 'hotfix/*'
+  
+resources:
+  repositories:
+    - repository: templates
+      type: git
+      name: 'Infraestrutura - Localiza Agile/TI.CICD.Templates'
+      ref: refs/tags/3.0.0
+
+variables:
+- template: Vars/Vars.yml@templates
+
+# Variaveis utilizadas pela Release          
+- name: AppVersion                      # Versão da aplicação (Semantic Version)
+  value: 0.0.1    
+- name: TagSemBuildId                   # Imagens bases são gerada sem o BuildId na tag
+  value: true  
+
+jobs:  
+- job: DockerBuild
+  displayName: Build e Push Imagem Docker
+  pool:  
+    name: 'Localiza Agil - Linux'
+  
+  steps:
+  - template: Tasks/step-docker-build.yml@templates
+    parameters:
+      TagSemBuildId: $(TagSemBuildId)
+      BreakOnLintError: true
+  - template: Tasks/step-publica-artefatos.yml@templates      
