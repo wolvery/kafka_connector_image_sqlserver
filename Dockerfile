@@ -1,4 +1,8 @@
 FROM confluentinc/cp-kafka-connect-base:5.5.0
+RUN wget http://http.us.debian.org/debian/pool/main/g/gettext/libasprintf0c2_0.19.3-2_amd64.deb
+RUN wget http://http.us.debian.org/debian/pool/main/g/gettext/gettext-base_0.19.3-2_amd64.deb
+RUN dpkg -i libasprintf0c2_0.19.3-2_amd64.deb  
+RUN dpkg -i gettext-base_0.19.3-2_amd64.deb  
 
 RUN confluent-hub install --no-prompt debezium/debezium-connector-sqlserver:1.1.0
 RUN confluent-hub install --no-prompt confluentinc/kafka-connect-jdbc:5.5.0
