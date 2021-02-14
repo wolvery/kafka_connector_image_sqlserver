@@ -11,4 +11,3 @@ Basta realizar um `docker build`
 TODO: 
 * Reduzir o tamanho dessa imagem.
 * Alterar o JDK utilizado.
-* Monitoramento do AppDynamics.
